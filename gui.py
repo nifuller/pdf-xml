@@ -18,6 +18,7 @@ def convert_pdf():
     pdf_text = convertor.pdf_conversion(filename)
     usr_prompt = entry_text.get("1.0", tk.END)
     response = convertor.xml_conversion(pdf_text, usr_prompt)
+    lbl_filename["text"] = "conversion successful"
 
 
 def save_xml():
@@ -27,6 +28,7 @@ def save_xml():
     file = asksaveasfile(filetypes=files, defaultextension=".xml")
     print(file.name)
     convertor.save_xml_file(response, file.name)
+    lbl_filename["text"] = "save successful"
 
 window = tk.Tk()
 window.title("PDF Extractor")
