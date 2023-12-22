@@ -1,3 +1,6 @@
 /pdfs
 /.venv
 xml*
+main.spec
+/build/main
+/dist
