@@ -2,6 +2,7 @@ import tkinter as tk
 import pdf_converter
 from tkinter import filedialog
 from tkinter import ttk
+import os
 
 def setup_gui():
     root = tk.Tk()
@@ -68,6 +69,10 @@ def open_file(root, user_text, status_label, pdf_label):
         pdf_label.grid()
         user_text.config(state="normal")
         status_label.config(text="File opened: " + file_path)
+        status_label.grid()
+    else:
+        status_label.config(text="No file selected")
+        status_label.grid()
 
 def create_loading_window(root):
     loading_window = tk.Toplevel(root)
@@ -93,6 +98,7 @@ def convert_file():
 
     if not file_path:
         status_label.config(text="No file selected")
+        status_label.grid()
         return
     
     loading_win = create_loading_window(root)
@@ -108,11 +114,10 @@ def convert_file():
             xml_content = pdf_converter.convert_text_to_xml(text, user_text_content)
             if xml_content is not None:
                 for choice in xml_content:
-                    content = choice.choices[0].delta.content
-                    if content is not None:
-                        user_text.insert(tk.END, str(content))
-                    loading_win.update()
-
+                    if choice.choices[0].delta.content is not None:
+                        user_text.insert(tk.END, str(choice.choices[0].delta.content))
+                        loading_win.update()
+        print("CONTENT", user_text.get("1.0", tk.END))
         status_label.config(text="Conversion Finished")
 
     except Exception as e:
@@ -125,15 +130,17 @@ def convert_file():
 def save_file():
     if not root.winfo_exists():
         return
-    file_path = filedialog.asksaveasfile(defaultextension=".xml", filetypes=[("XML Files", "*.xml"), ("All Files", "*.*")])
-    
+    file_path = filedialog.asksaveasfile(defaultextension=".xml", filetypes=[("XML Files", "*.xml")])
+    filename = os.path.basename(file_path.name)
+    xml_data = user_text.get("1.0", tk.END)
     if file_path is None:
         status_label.config(text="Save cancelled")
+    
     else:
-        if file_path:
             try:
-                pdf_converter.save_file(xml_content, file_path.name)
+                pdf_converter.save_xml(xml_data, filename)
                 status_label.config(text="Save successful")
+                #user_text.delete("1.0", tk.END)
                 user_text.config(state="disabled")
             except Exception as e:
                 print(f"An error occurred: {e}")

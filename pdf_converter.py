@@ -46,8 +46,8 @@ def convert_pdf_to_text(file_path):
         print(f"An error occured: {e}")
         return None
     
-def save_file(content, file_name):
+def save_xml(content, file_name):
     file = open(file_name, "w", encoding="utf-8")
-    for chunk in content:
-        if chunk.choices[0].delta.content is not None:
-            file.write(chunk.choices[0].delta.content)
+    with open(file_name, "w", encoding="utf-8") as file:
+        file.write(content)
+    file.close()
