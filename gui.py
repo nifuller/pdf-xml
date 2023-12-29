@@ -18,7 +18,7 @@ def setup_gui():
     status_label.grid_remove()
 
     # Create and hide the user_text widget
-    user_text = tk.Text(root, width=50, height=10, state="disabled")
+    user_text = tk.Text(root, width=75, height=15, state="disabled")
     user_text.grid(row=1, column=0, columnspan=3, padx=10, pady=10, sticky="nsew")
     user_text.grid_remove()
 
@@ -62,7 +62,7 @@ def open_file(root, user_text, status_label, pdf_label):
     global file_path
     if not root.winfo_exists():
         return
-    file_path = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf"), ("All Files", "*.*")])
+    file_path = filedialog.askopenfilename(filetypes=[("PDF Files", "*.pdf")])
     if file_path:
         user_text.grid()
         pdf_label.grid()
