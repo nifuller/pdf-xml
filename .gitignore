@@ -4,5 +4,5 @@ xml*
 main.spec
 /build/main
 /dist
-/__pycache__
+**/__pycache__/
 gui.log
