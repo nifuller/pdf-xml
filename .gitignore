@@ -4,3 +4,4 @@ xml*
 main.spec
 /build/main
 /dist
+/__pycache__
