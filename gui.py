@@ -3,6 +3,9 @@ import pdf_converter
 from tkinter import filedialog
 from tkinter import ttk
 import os
+import logging
+
+logging.basicConfig(filename="gui.log", level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%(message)s")
 
 def setup_gui():
     root = tk.Tk()
@@ -144,7 +147,7 @@ def save_file():
             status_label.config(text="Save successful")
             user_text.config(state="disabled")
         except Exception as e:
-            print(f"An error occurred: {e}")
+            logging.error(f"An error occurred: {e}")
             status_label.config(text="Save failed")
 
 root, pdf_label, user_text, button_frame, open_button, status_label, clear_button, save_button = setup_gui()
