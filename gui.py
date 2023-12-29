@@ -117,7 +117,7 @@ def convert_file():
                     if choice.choices[0].delta.content is not None:
                         user_text.insert(tk.END, str(choice.choices[0].delta.content))
                         loading_win.update()
-        print("CONTENT", user_text.get("1.0", tk.END))
+
         status_label.config(text="Conversion Finished")
 
     except Exception as e:
@@ -130,21 +130,22 @@ def convert_file():
 def save_file():
     if not root.winfo_exists():
         return
+    
     file_path = filedialog.asksaveasfile(defaultextension=".xml", filetypes=[("XML Files", "*.xml")])
     filename = os.path.basename(file_path.name)
     xml_data = user_text.get("1.0", tk.END)
+    
     if file_path is None:
         status_label.config(text="Save cancelled")
     
     else:
-            try:
-                pdf_converter.save_xml(xml_data, filename)
-                status_label.config(text="Save successful")
-                #user_text.delete("1.0", tk.END)
-                user_text.config(state="disabled")
-            except Exception as e:
-                print(f"An error occurred: {e}")
-                status_label.config(text="Save failed")
+        try:
+            pdf_converter.save_xml(xml_data, filename)
+            status_label.config(text="Save successful")
+            user_text.config(state="disabled")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            status_label.config(text="Save failed")
 
 root, pdf_label, user_text, button_frame, open_button, status_label, clear_button, save_button = setup_gui()
 
