@@ -8,7 +8,7 @@ def setup_gui():
     root.title("PDF to XML")
 
     # Create and hide the pdf_label widget
-    pdf_label = tk.Label(root, text="Example on how to use the PDF to XML converter: \n 'Convert the following text to XML:'\n")
+    pdf_label = tk.Label(root, text="Example on how to use the PDF to XML converter: \n 'Convert to XML:'\n")
     pdf_label.grid(row=0, column=0, columnspan=3, padx=10, pady=10, sticky="we")
     pdf_label.grid_remove()
 
@@ -56,7 +56,7 @@ def setup_gui():
 def clear_text(text_widget):
         text_widget.config(state="normal")
         text_widget.delete("1.0", tk.END)
-        text_widget.config(state="disabled")
+        #text_widget.config(state="disabled")
 
 def open_file(root, user_text, status_label, pdf_label):
     global file_path
@@ -101,7 +101,7 @@ def convert_file():
         # Call the conversion function
         user_text_content = user_text.get("1.0", tk.END)
         text = pdf_converter.convert_pdf_to_text(file_path)
-
+        user_text.delete("1.0", tk.END)
         if text == None:
             status_label.config(text="Conversion failed")
         else:
